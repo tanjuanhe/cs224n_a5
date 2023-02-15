@@ -179,7 +179,9 @@ class CharCorruptionDataset(Dataset):
             trunc_length = random.randint(4, int(self.block_size*7/8))
         trunc_document = document[:trunc_length]
         
-        if int(trunc_length/2) <= 1:
+        if int(trunc_length/2) <1:
+            mask_length = trunc_length
+        elif int(trunc_length/2) == 1:
             mask_length = 1
         else:
             mask_length = random.randint(1, int(trunc_length/2))
