@@ -179,8 +179,14 @@ class CharCorruptionDataset(Dataset):
             trunc_length = random.randint(4, int(self.block_size*7/8))
         trunc_document = document[:trunc_length]
         
-        mask_length = random.randint(1, int(trunc_length/2))
-        mask_start = random.randint(1, trunc_length-mask_length-1)
+        if int(trunc_length/2) <= 1:
+            mask_length = 1
+        else:
+            mask_length = random.randint(1, int(trunc_length/2))
+        if trunc_length-mask_length == 0:
+            mask_start = 0
+        else:
+            mask_start = random.randint(0, trunc_length-mask_length)
         prefix = trunc_document[:mask_start]
         masked_content = trunc_document[mask_start: mask_start+mask_length]
         suffix = trunc_document[mask_start+mask_length:]
