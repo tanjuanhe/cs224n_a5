@@ -138,9 +138,9 @@ elif args.function == 'finetune':
     tconf = trainer.TrainerConfig(max_epochs=75, batch_size=256, learning_rate=args.finetune_lr,
                       lr_decay=True, warmup_tokens=512*20, final_tokens=200*len(pretrain_dataset)*block_size,
                       num_workers=4, writer=writer)
-    trainer_obj = trainer.Trainer(model, train_dataset, None, tconf)
-    trainer_obj.train()
-    torch.save(trainer_obj.model.state_dict(), args.writing_params_path)
+    trainer = trainer.Trainer(model, train_dataset, None, tconf)
+    trainer.train()
+    torch.save(model.state_dict(), args.writing_params_path)
     
     raise NotImplementedError
 elif args.function == 'evaluate':
